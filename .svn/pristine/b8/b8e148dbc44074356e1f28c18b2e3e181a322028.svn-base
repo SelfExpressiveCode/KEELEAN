@@ -1,0 +1,60 @@
+package com.sec.framework.page.aop;
+
+import java.lang.reflect.Method;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.sec.framework.aop.AbsInterceptor;
+import com.sec.framework.page.annotation.PageService;
+
+@Aspect
+@Component
+public class PageServiceInterceptor extends AbsInterceptor {
+
+	private static final Logger logger = LoggerFactory.getLogger(PageServiceInterceptor.class);
+
+	@Around("@annotation(com.sec.framework.page.annotation.PageService)")
+	public Object accessControl(ProceedingJoinPoint joinPoint) {
+		String methodName = joinPoint.getSignature().getName();
+		try {
+			Method method = getTargetMethod(joinPoint.getTarget().getClass().getMethods(), methodName);
+			PageService pageServiceAnno = method.getAnnotation(PageService.class);
+			ModelAndView result = null;
+			result = (ModelAndView) joinPoint.proceed(joinPoint.getArgs());
+			result.addObject("pageEntityClass", pageServiceAnno.entityClass().getName());
+			result.addObject("pageVisitorClass", pageServiceAnno.visitorClass().getName());
+			result.addObject("pageSearchFormClass", pageServiceAnno.searchFormClass().getName());
+			return result;
+		} catch (Throwable e) {
+			logger.error(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public int getOrder() {
+		return 1;
+	}
+
+	/**
+	 * 根据函数名查找方法
+	 * 
+	 * @param methods
+	 * @param methodName
+	 * @return
+	 */
+	protected Method getTargetMethod(Method[] methods, String methodName) {
+		for (int i = 0; i < methods.length; i++) {
+			if (methodName.equals(methods[i].getName())) {
+				return methods[i];
+			}
+		}
+		return null;
+	}
+}

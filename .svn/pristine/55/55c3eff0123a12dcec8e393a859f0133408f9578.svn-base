@@ -1,0 +1,11 @@
+package com.sec.framework.tags;
+
+
+public class Select extends InputCombo {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+   
+}

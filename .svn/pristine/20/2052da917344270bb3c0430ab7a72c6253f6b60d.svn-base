@@ -1,0 +1,105 @@
+package com.sec.framework.component.tree;
+
+import java.util.List;
+
+import com.sec.framework.entity.BaseEntity;
+
+public class ZTreeNode {
+	private Object id;
+	private String name;
+	private Object pId;
+
+	private boolean parental = false;
+
+	private boolean expanded;
+
+	public ZTreeNode(Object id, String name, Object parentId) {
+		this.id = id;
+		this.name = name;
+		this.pId = parentId;
+	}
+
+	public ZTreeNode(Object id, String name, Object parentId, boolean expanded, boolean parental) {
+		this.id = id;
+		this.name = name;
+		this.pId = parentId;
+		this.expanded = expanded;
+		this.parental = parental;
+	}
+
+	public Object getId() {
+		return id;
+	}
+
+	public void setId(Object id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Object getpId() {
+		return pId;
+	}
+
+	public void setpId(Object pId) {
+		this.pId = pId;
+	}
+
+	public boolean isParental() {
+		return parental;
+	}
+
+	public void setParental(boolean parental) {
+		this.parental = parental;
+	}
+
+	public boolean isExpanded() {
+		return expanded;
+	}
+
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
+	}
+
+	public static String convertZTreeJson(String json) {
+		return json.replaceAll("parental", "isParent").replaceAll("expanded", "open");
+	}
+
+	public static <T extends BaseEntity> void buildBaseTree(int treeId, int rootId, List<ZTreeNode> nodes, Class<T> className, List<T> list) throws Exception {
+		for (T entity : list) {
+			T parent = (T) className.getDeclaredField("parent").get(entity);
+			String name = (String) className.getDeclaredField("name").get(entity);
+			Long id = (Long) className.getDeclaredField("id").get(entity);
+			boolean flag = false;
+			for (T entity1 : list) {
+				T parent1 = (T) className.getDeclaredField("parent").get(entity1);
+				if (parent1 != null && id == parent1.getId()) {
+					flag = true;
+				}
+			}
+			if (treeId == rootId) {
+				if (parent == null) {
+					nodes.add(new ZTreeNode(id, name, 0, true, flag));
+				} else {
+					Long pId = (Long) className.getDeclaredField("id").get(parent);
+					if (pId == treeId) {
+						nodes.add(new ZTreeNode(id, name, pId, false, flag));
+					}
+				}
+			} else {
+				if (parent != null) {
+					Long pId = (Long) className.getDeclaredField("id").get(parent);
+					if (pId == treeId) {
+						nodes.add(new ZTreeNode(id, name, pId, false, flag));
+					}
+				}
+			}
+		}
+	}
+}

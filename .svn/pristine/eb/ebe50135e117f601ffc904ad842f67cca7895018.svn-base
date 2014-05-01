@@ -1,0 +1,5 @@
+package com.sec.framework.mail;
+
+
+public class MailSender {
+}

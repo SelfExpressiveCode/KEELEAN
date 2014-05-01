@@ -1,0 +1,8 @@
+package com.sec.framework.validate.annotation;
+
+import com.sec.framework.validate.Validable;
+
+public @interface Unique {
+
+	Class<? extends Validable> validateClass();
+}

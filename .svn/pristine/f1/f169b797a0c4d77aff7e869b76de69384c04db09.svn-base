@@ -1,0 +1,74 @@
+package com.sec.framework.security.shiro;
+
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.Sha384Hash;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.sec.framework.security.PermissionQuerier;
+import com.sec.framework.security.util.SecurityUtil;
+
+@Component("realm")
+public class Realm extends AuthorizingRealm {
+
+	public static final String SESSION_USER_KEY = "session_user";
+
+	private String sessionUserKey = SESSION_USER_KEY;
+
+	public void setSessionUserKey(String sessionUserKey) {
+		this.sessionUserKey = sessionUserKey;
+	}
+
+	@Autowired
+	private PermissionQuerier querier;
+
+	public void setQuerier(PermissionQuerier querier) {
+		this.querier = querier;
+	}
+
+	/**
+	 * 查询权限信息组装授权对象
+	 */
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		Object user = (Object) SecurityUtil.getSession().getAttribute(sessionUserKey);
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		Set<String> permissions = querier.getPermissions(user);
+		info.setStringPermissions(permissions);
+		return info;
+	}
+
+	/**
+	 * 查询账户信息组装认证对象
+	 */
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+		String username = token.getUsername();
+		String originalPassWord = String.valueOf(token.getPassword());
+		String password = new Sha384Hash(originalPassWord).toBase64();
+		AuthenticationInfo info = null;
+		if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(password)) {
+			Object user = querier.getAuthenticationInfo(username, password);
+			if (user != null) {
+				Session session = SecurityUtil.getSession();
+				session.setAttribute(sessionUserKey, user);
+				info = new SimpleAuthenticationInfo(username, originalPassWord, getName());
+			}
+		}
+		return info;
+	}
+
+}

@@ -1,0 +1,8 @@
+package com.sec.framework.aop;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+
+public interface IAccessControl {
+
+	public Object accessControl(ProceedingJoinPoint joinPoint);
+}

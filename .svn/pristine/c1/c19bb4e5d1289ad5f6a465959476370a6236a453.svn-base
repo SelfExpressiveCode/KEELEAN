@@ -1,0 +1,12 @@
+package com.sec.framework.validate.annotation;
+
+import com.sec.framework.validate.Validable;
+import com.sec.framework.validate.constant.Phone;
+import com.sec.framework.validate.validator.TelPhoneValidator;
+
+public @interface TelPhone {
+
+	Phone type() default Phone.TELPHONE;
+
+	Class<? extends Validable> validateClass() default TelPhoneValidator.class;
+}

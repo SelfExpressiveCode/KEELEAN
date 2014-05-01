@@ -1,0 +1,37 @@
+package com.sec.framework.security.util;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+
+public class SecurityUtil {
+	
+	private SecurityUtil(){}
+	
+	/**
+	 * 获取session
+	 */
+	public static Session getSession(){
+		return SecurityUtils.getSubject().getSession();
+	}
+	
+	/**
+	 * 登录
+	 * @param username
+	 * @param password
+	 */
+	public static void login(String username,String password){
+		//TODO Ҫ���
+		Subject subject = SecurityUtils.getSubject();
+		subject.login(new UsernamePasswordToken(username, password));
+	}
+	
+	public static Object getSessionAttribute(String key){
+		return getSession().getAttribute(key);
+	}
+	
+	public static void setSessionAttribute(String key,Object value){
+		getSession().setAttribute(key,value);
+	}
+}

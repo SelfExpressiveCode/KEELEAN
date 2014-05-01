@@ -1,0 +1,15 @@
+package com.sec.framework.page;
+
+import java.util.List;
+
+import com.sec.framework.entity.BaseEntity;
+
+public interface PageVisitor {
+
+	/**
+	 * 对分页出来的数据进行数据处理
+	 * 
+	 * @return
+	 */
+	public List<? extends BaseEntity> visitor(List<? extends BaseEntity> datas);
+}

@@ -1,0 +1,34 @@
+package com.sec.framework.validate.validator;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+
+import com.sec.framework.validate.Validable;
+import com.sec.framework.validate.Validatee;
+import com.sec.framework.validate.annotation.Range;
+import com.sec.framework.validate.exception.ValidateError;
+import com.sec.framework.validate.exception.ValidationError;
+
+public class RangeValidator implements Validable {
+
+	@Override
+	public void validate(Validatee info, Field field, Annotation annotation) throws Exception {
+		Object obj = field.get(info);
+		Range range = (Range) annotation;
+		if (obj instanceof Integer) {
+			if (obj != null && (Integer) obj < range.min()) {
+				info.putError(field.getName(), new ValidationError(field, new ValidateError("最小值：%1", range.min())));
+			} else if (obj != null && (Integer) obj > range.max()) {
+				info.putError(field.getName(), new ValidationError(field, new ValidateError("最大值：%1", range.max())));
+			}
+		} else if (obj instanceof Float) {
+			if (obj != null && (Float) obj < range.min()) {
+				info.putError(field.getName(), new ValidationError(field, new ValidateError("最小值：%1", range.min())));
+			} else if (obj != null && (Float) obj > range.max()) {
+				info.putError(field.getName(), new ValidationError(field, new ValidateError("最大值：%1", range.max())));
+			}
+		}
+
+	}
+
+}

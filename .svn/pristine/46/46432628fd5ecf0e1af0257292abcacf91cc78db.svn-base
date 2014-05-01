@@ -1,0 +1,30 @@
+package com.sec.framework.security;
+
+import java.util.List;
+import java.util.Set;
+
+public interface PermissionQuerier {
+
+	/**
+	 * 根据权限的key去查询对应的该资源允许访问的权限
+	 * @param permissionKey
+	 * @return
+	 */
+	List<String> queryPermission(String permissionKey);
+	
+	/**
+	 * 根据用户获取用户拼接的权限字符串
+	 * @param user
+	 * @return
+	 */
+	public Set<String> getPermissions(Object user);
+	
+	
+	/**
+	 * 获取认证信息
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public Object getAuthenticationInfo(String username,String password);
+}

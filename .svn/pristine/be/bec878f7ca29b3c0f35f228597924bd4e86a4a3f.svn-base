@@ -1,0 +1,85 @@
+package com.sec.framework.tags;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.Tag;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.sec.framework.validate.annotation.Length;
+import com.sec.framework.validate.annotation.Required;
+
+public class InputText extends BaseInput {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3431993969907264894L;
+	protected String type = "text";
+
+    @Override
+    public int doStartTag() throws JspException {
+        JspWriter out = this.pageContext.getOut();
+        StringBuffer model = new StringBuffer();
+        try {
+        	if (fieldName != null) {
+        		clazz = Class.forName(fieldName.substring(0,
+                        fieldName.lastIndexOf(".")));
+                field = clazz.getDeclaredField(fieldName.substring(fieldName
+                        .lastIndexOf(".") + 1));
+                id = field.getName();
+			}
+            String requiredStr = "";
+           
+            boolean isError = form != null && form.errors.get(field.getName()) != null;
+            String errorClass = isError ? "has-error" : "";
+            String componentStr = getComponentStr();
+            String labelStyleStr = StringUtils.isEmpty(labelStyle) ? "" :"style=\""+labelStyle+"\""; 
+            if (field != null) {
+            	if (field.getAnnotation(Required.class) != null) {
+                	requiredStr = "<font color=red>*</font>";
+                } 
+			}
+            
+            //model.append("<div class='form-group'>");
+            
+            model.append("<label for=\""+id+"\" "+labelStyleStr+" class=\"col-sm-"+labelWidth+" control-label\">"+content+requiredStr+"</label>");
+            model.append("<div class='col-sm-"+inputWidth+" "+errorClass+"'>");
+            model.append(componentStr);
+            model.append("</div>");
+            if (isError) {
+                model.append("<div class=\"col-sm-"+errorWidth+" "+errorClass+"\">");
+                model.append("<label class=\"control-label\" for=\""+id+"\">"+form.errors.get(field.getName()).error.getMessage()+"</label>");
+                model.append("</div>");
+            }
+            //model.append("</div>");
+            out.print(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+        return Tag.EVAL_BODY_INCLUDE;
+    }
+
+    /**
+     * 获取组件字符串
+     * @return
+     */
+    protected String getComponentStr() {
+    	String name = clazz.getSimpleName().toLowerCase() + "." + field.getName();
+    	String lengthStr = "";
+        String valueStr = toValue(value, field.getType());
+        Length length = field.getAnnotation(Length.class);
+        if (length != null) {
+        	lengthStr = " maxlength=\"" + length.max() + "\"";
+        }
+    	return "<input type=\""+type+"\" "+lengthStr+" value=\""+valueStr+"\"  name=\""+name+"\" class=\"form-control\" id=\""+id+"\" placeholder=\"请输入"+content+"\">";
+	}
+
+	@Override
+    public int doEndTag() throws JspException {
+        // ConvertUtils.register(new CommonConvert(), value.getClass());
+
+        return Tag.EVAL_PAGE;
+    }
+}
