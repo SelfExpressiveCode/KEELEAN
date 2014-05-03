@@ -9,18 +9,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.sec.framework.util.StringUtil;
 
-public class FormFactory extends BaseForm {
+public class FormFactory {
 
 	@SuppressWarnings("rawtypes")
-	public static BaseForm parseFromRequest(HttpServletRequest request, Class formClazz) {
+	public static BaseForm parseFromRequest(HttpServletRequest request,
+			Class formClazz) {
 
 		try {
 			BaseForm form = (BaseForm) formClazz.newInstance();
 			Field[] fields = formClazz.getDeclaredFields();
 			for (Field field : fields) {
-				Object value = request.getParameter(getClassName(formClazz) + "." + field.getName());
+				Object value = request.getParameter(getClassName(formClazz)
+						+ "." + field.getName());
 
-				Field formField = form.getClass().getDeclaredField(field.getName());
+				Field formField = form.getClass().getDeclaredField(
+						field.getName());
 				formField.setAccessible(true);
 				assignValue(form, formField, value);
 			}
@@ -45,7 +48,8 @@ public class FormFactory extends BaseForm {
 
 	@SuppressWarnings("rawtypes")
 	public static void assignValue(BaseForm form, Field formField, Object value) {
-		if ((value == null || value == "") && !formField.equals("beginTime") && !formField.equals("endTime")) {
+		if ((value == null || value == "") && !formField.equals("beginTime")
+				&& !formField.equals("endTime")) {
 			return;
 		}
 		try {
@@ -56,11 +60,13 @@ public class FormFactory extends BaseForm {
 			} else if (clazzType.getName().equals("java.lang.Integer")) {
 				formField.set(form, Integer.parseInt((String) value));
 			} else if (clazzType.getName().equals("java.util.Date")) {
-				DateTimeFormat anno = formField.getAnnotation(DateTimeFormat.class);
+				DateTimeFormat anno = formField
+						.getAnnotation(DateTimeFormat.class);
 				if (anno == null) {
 					formField.set(form, StringUtil.parseDate((String) value));
 				} else {
-					formField.set(form, StringUtil.parseDate((String) value, anno.pattern()));
+					formField.set(form, StringUtil.parseDate((String) value,
+							anno.pattern()));
 				}
 			} else if (clazzType.getName().equals("java.lang.Long")) {
 				formField.set(form, Long.parseLong((String) value));

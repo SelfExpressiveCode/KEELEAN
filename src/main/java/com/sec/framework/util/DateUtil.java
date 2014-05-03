@@ -41,6 +41,15 @@ public class DateUtil {
 	}
 
 	public static double convertMillisecondToHour(long times) {
-		return new BigDecimal(times / 1000 / 60 / 60).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return new BigDecimal(times / 1000 / 60 / 60).setScale(1,
+				BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+
+	public static Date after(Date date, int offset) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int day = c.get(Calendar.DATE);
+		c.set(Calendar.DATE, day + offset);
+		return c.getTime();
 	}
 }

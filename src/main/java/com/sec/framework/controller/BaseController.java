@@ -56,7 +56,7 @@ public abstract class BaseController<T extends BaseEntity, P extends BaseForm> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean create(HttpServletRequest request, HttpSession session,
+	public T create(HttpServletRequest request, HttpSession session,
 			Class<T> entityClass, Class<P> formClass) {
 		BaseForm form = (BaseForm) FormFactory.parseFromRequest(request,
 				formClass);
@@ -68,7 +68,7 @@ public abstract class BaseController<T extends BaseEntity, P extends BaseForm> {
 			request.setAttribute(getClassName(entityClass), entity);
 			request.setAttribute("form", form);
 
-			return false;
+			return null;
 		}
 		T entity = (T) form.toEntity(form, entityClass);
 
@@ -77,7 +77,7 @@ public abstract class BaseController<T extends BaseEntity, P extends BaseForm> {
 		setDataFromSession(entity);
 		entity.save();
 
-		return true;
+		return entity;
 	}
 
 	@SuppressWarnings("unchecked")

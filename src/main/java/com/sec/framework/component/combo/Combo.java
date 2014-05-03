@@ -16,6 +16,10 @@ public class Combo<T extends BaseEntity> {
 	private List<ComboItem> items;
 	Class<T> clazz;
 
+	public Combo() {
+
+	}
+
 	public Combo(Class<T> clazz) {
 		this.clazz = clazz;
 	}
