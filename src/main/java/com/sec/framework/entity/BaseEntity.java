@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlUpdate;
+import com.avaje.ebean.Transaction;
 import com.sec.framework.util.DateUtil;
 import com.sec.framework.util.StringUtil;
 
@@ -92,8 +93,15 @@ public abstract class BaseEntity implements Logical {
 
 		System.out.println(executable);
 
-		SqlUpdate update = Ebean.createSqlUpdate(executable);
-		update.execute();
+		Transaction tx = Ebean.beginTransaction();
+		try {
+			SqlUpdate update = Ebean.createSqlUpdate(executable);
+			update.execute();
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
 	}
 
 	private String formatName(Field field) {
