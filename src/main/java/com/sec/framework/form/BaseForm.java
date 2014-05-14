@@ -1,11 +1,13 @@
 package com.sec.framework.form;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.sec.framework.entity.BaseEntity;
 import com.sec.framework.entity.Finder;
+import com.sec.framework.util.StringUtil;
 import com.sec.framework.validate.Validatee;
 import com.sec.framework.validate.exception.ValidationError;
 
@@ -50,11 +52,31 @@ public class BaseForm implements Validatee {
 								continue;
 							}
 
-							entityField.set(
-									entity,
-									getSubEntity(entityField.getType(), Long
-											.parseLong(String.valueOf(field
-													.get(form)))));
+							System.out
+									.println("field.type= " + field.getType());
+							System.out.println("entityField.type= "
+									+ entityField.getType());
+
+							if (field.getType().getName()
+									.equals("java.lang.String")
+									&& entityField.getType().getName()
+											.equals("java.util.Date")) {
+								field.setAccessible(true);
+								try {
+									entityField.set(entity,
+											StringUtil.parseDate((String) field
+													.get(form)));
+								} catch (ParseException e) {
+									e.printStackTrace();
+								}
+							} else {
+								entityField.set(
+										entity,
+										getSubEntity(entityField.getType(),
+												Long.parseLong(String
+														.valueOf(field
+																.get(form)))));
+							}
 						} else {
 							field.setAccessible(true);
 							entityField.set(entity, field.get(form));
