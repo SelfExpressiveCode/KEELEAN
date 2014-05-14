@@ -40,6 +40,69 @@
  </tag>
  
  <tag>
+  <name>password</name>        
+  <tag-class>com.sec.framework.tags.InputPassword</tag-class>
+  <body-content>JSP</body-content>                      
+  <attribute>                                           
+	   <name>label</name>
+	   <required>true</required>                            
+	   <rtexprvalue>true</rtexprvalue>                      
+	   <type>java.lang.String</type>                        
+	   <description>标签</description>            
+  </attribute>
+                      
+                      
+  <attribute>                                           
+	   <name>fieldName</name>
+	   <required>true</required>                            
+	   <rtexprvalue>true</rtexprvalue>                      
+	   <type>java.lang.String</type>                        
+	   <description>变量名称</description>            
+  </attribute>
+  
+    
+  <attribute>                                           
+	   <name>form</name>
+	   <required>false</required>                            
+	   <rtexprvalue>true</rtexprvalue>                      
+	   <type>java.lang.Object</type>                        
+	   <description>form对象</description>            
+  </attribute>
+  
+ </tag>
+ 
+ <tag>
+  <name>textarea</name>        
+  <tag-class>com.sec.framework.tags.InputTextArea</tag-class>
+  <body-content>JSP</body-content>                      
+  <attribute>                                           
+	   <name>label</name>
+	   <required>true</required>                            
+	   <rtexprvalue>true</rtexprvalue>                      
+	   <type>java.lang.String</type>                        
+	   <description>标签</description>            
+  </attribute>
+                      
+                      
+  <attribute>                                           
+	   <name>fieldName</name>
+	   <required>true</required>                            
+	   <rtexprvalue>true</rtexprvalue>                      
+	   <type>java.lang.String</type>                        
+	   <description>变量名称</description>            
+  </attribute>
+  
+    
+  <attribute>                                           
+	   <name>form</name>
+	   <required>false</required>                            
+	   <rtexprvalue>true</rtexprvalue>                      
+	   <type>java.lang.Object</type>                        
+	   <description>form对象</description>            
+  </attribute>
+  
+ </tag>
+ <tag>
   <name>checkbox</name>        
   <tag-class>com.sec.framework.tags.InputCheckBox</tag-class>
   <body-content>JSP</body-content>                      
@@ -73,7 +136,7 @@
  
  <tag>
   <name>combo</name>        
-  <tag-class>com.sec.framework.tags.SingleInputCombo</tag-class>
+  <tag-class>com.sec.framework.tags.InputCombo</tag-class>
   <body-content>JSP</body-content>                      
   <attribute>                                           
 	   <name>label</name>
