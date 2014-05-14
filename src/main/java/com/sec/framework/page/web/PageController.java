@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sec.framework.entity.BaseEntity;
 import com.sec.framework.form.BaseForm;
@@ -17,15 +15,15 @@ import com.sec.framework.page.vo.Page;
 import com.sec.framework.page.vo.PageResult;
 
 @Controller
-@RequestMapping("/page")
+// @RequestMapping("/page")
 public class PageController {
 
 	private static Log log = LogFactory.getLog(PageController.class
 			.getSimpleName());
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/queryByPage")
-	@ResponseBody
+	// @RequestMapping("/queryByPage")
+	// @ResponseBody
 	public PageResult queryByPage(HttpServletRequest request, Page page) {
 		PageResult result = null;
 		try {

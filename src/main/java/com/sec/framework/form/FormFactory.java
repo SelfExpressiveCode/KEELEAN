@@ -48,8 +48,7 @@ public class FormFactory {
 
 	@SuppressWarnings("rawtypes")
 	public static void assignValue(BaseForm form, Field formField, Object value) {
-		if ((value == null || value == "") && !formField.equals("beginTime")
-				&& !formField.equals("endTime")) {
+		if ((value == null || value == "")) {
 			return;
 		}
 		try {
