@@ -68,6 +68,13 @@ public abstract class BaseController<T extends BaseEntity, P extends BaseForm> {
 			request.setAttribute(getClassName(entityClass), entity);
 			request.setAttribute("form", form);
 
+			Iterator<String> i = form.errors.keySet().iterator();
+			while (i.hasNext()) {
+				String key = i.next();
+				ValidationError e = form.errors.get(key);
+				System.out.println(e.toString());
+			}
+
 			return null;
 		}
 		T entity = (T) form.toEntity(form, entityClass);
