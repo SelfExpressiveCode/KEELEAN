@@ -31,16 +31,22 @@ public class StringUtil {
 
 	public static Date parseDate(String value) throws ParseException {
 
-		return parseDate(value, "yyyy-MM-dd");
+		Date date = parseDate(value, "yyyy-MM-dd");
+		if (date == null) {
+			date = parseDate(value, "yyyy/MM/dd");
+		}
+		return date;
 	}
 
 	public static Date parseDate(String value, String pattern)
 			throws ParseException {
-
-		System.out.println("parsing.." + value);
-
-		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-		Date date = sdf.parse(value);
+		Date date = null;
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+			date = sdf.parse(value);
+		} catch (ParseException e) {
+			return null;
+		}
 		return date;
 	}
 

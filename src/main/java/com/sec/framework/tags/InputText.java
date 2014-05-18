@@ -12,6 +12,8 @@ public class InputText extends BaseInput {
 	private static final long serialVersionUID = -3431993969907264894L;
 	protected String type = "text";
 
+	protected String readonly;
+
 	// TODO regular expression format to restrict
 	protected String format;
 
@@ -87,8 +89,12 @@ public class InputText extends BaseInput {
 		if (length != null) {
 			lengthStr = " maxlength='" + length.max() + "'";
 		}
-		return "<input type='" + type + "' " + lengthStr + " value='"
-				+ valueStr + "' name='" + name + "'  id='" + id
+
+		String readonlyStr = readonly != null
+				&& readonly.equalsIgnoreCase("true") ? " readonly =\"readonly\" "
+				: "";
+		return "<input type='" + type + "' " + lengthStr + readonlyStr
+				+ " value='" + valueStr + "' name='" + name + "'  id='" + id
 				+ "' placeholder='请输入" + label + "'>";
 	}
 
@@ -96,6 +102,14 @@ public class InputText extends BaseInput {
 	public int doEndTag() throws JspException {
 
 		return Tag.EVAL_PAGE;
+	}
+
+	public String getReadonly() {
+		return readonly;
+	}
+
+	public void setReadonly(String readonly) {
+		this.readonly = readonly;
 	}
 
 }
