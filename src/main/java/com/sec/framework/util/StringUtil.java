@@ -33,7 +33,7 @@ public class StringUtil {
 
 		Date date = parseDate(value, "yyyy-MM-dd");
 		if (date == null) {
-			date = parseDate(value, "yyyy/MM/dd");
+			date = parseDate(value, "MM/dd/yyyy");
 		}
 		return date;
 	}

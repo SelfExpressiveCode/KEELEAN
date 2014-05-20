@@ -12,7 +12,7 @@ import com.sec.framework.validate.validator.DateTimeValidator;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface DateTime {
 
-	String format() default "yyyy-MM-dd";
+	String[] format() default { "yyyy-MM-dd" };
 
 	Class<? extends Validable> validateClass() default DateTimeValidator.class;
 }
