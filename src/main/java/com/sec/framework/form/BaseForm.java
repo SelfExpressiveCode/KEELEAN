@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.sec.framework.entity.BaseEntity;
 import com.sec.framework.entity.Finder;
 import com.sec.framework.util.StringUtil;
@@ -16,7 +18,6 @@ public class BaseForm implements Validatee {
 	public Map<String, ValidationError> errors = new HashMap<String, ValidationError>();
 
 	public BaseEntity toEntity() {
-		// TODO Automatically to Entity.
 		return null;
 	}
 
@@ -69,6 +70,16 @@ public class BaseForm implements Validatee {
 								} catch (ParseException e) {
 									e.printStackTrace();
 								}
+							} else if (field
+									.getType()
+									.getName()
+									.equals("org.springframework.web.multipart.MultipartFile")
+									&& entityField.getType().getName()
+											.equals("java.lang.String")) {
+
+								entityField.set(entity, ((MultipartFile) field
+										.get(form)).getOriginalFilename());
+
 							} else {
 								entityField.set(
 										entity,

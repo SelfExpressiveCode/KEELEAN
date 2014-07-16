@@ -6,6 +6,7 @@ import java.text.ParseException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.sec.framework.util.StringUtil;
 
@@ -19,8 +20,13 @@ public class FormFactory {
 			BaseForm form = (BaseForm) formClazz.newInstance();
 			Field[] fields = formClazz.getDeclaredFields();
 			for (Field field : fields) {
-				Object value = request.getParameter(getClassName(formClazz)
-						+ "." + field.getName());
+				String formFieldName = getClassName(formClazz) + "."
+						+ field.getName();
+				Object value = request.getParameter(formFieldName);
+
+				if (field.getType().getName().endsWith("MultipartFile")) {
+					value = ((MultipartRequest) request).getFile(formFieldName);
+				}
 
 				Field formField = form.getClass().getDeclaredField(
 						field.getName());
@@ -55,6 +61,9 @@ public class FormFactory {
 			Class clazzType = formField.getType();
 
 			if (clazzType.getName().equals("java.lang.String")) {
+				formField.set(form, value);
+			} else if (clazzType.getName().equals(
+					"org.springframework.web.multipart.MultipartFile")) {
 				formField.set(form, value);
 			} else if (clazzType.getName().equals("java.lang.Integer")) {
 				formField.set(form, Integer.parseInt((String) value));
