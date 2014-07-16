@@ -52,4 +52,13 @@ public class DateUtil {
 		c.set(Calendar.DATE, day + offset);
 		return c.getTime();
 	}
+
+	public static long compare(Date one, Date other) {
+		Calendar one1 = Calendar.getInstance();
+		one1.setTime(one);
+		Calendar other1 = Calendar.getInstance();
+		other1.setTime(other);
+
+		return one1.getTimeInMillis() - other1.getTimeInMillis();
+	}
 }
