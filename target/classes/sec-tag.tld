@@ -36,15 +36,6 @@
 	   <type>java.lang.Object</type>                        
 	   <description>form对象</description>            
   </attribute>
-        
-                      
-  <attribute>                                           
-	   <name>readonly</name>
-	   <required>false</required>                            
-	   <rtexprvalue>false</rtexprvalue>                      
-	   <type>java.lang.String</type>                        
-	   <description>只读</description>            
-  </attribute>
   
  </tag>
  
@@ -214,38 +205,6 @@
   </attribute>
  </tag>
  
- 
- <tag>
-  <name>file</name>        
-  <tag-class>com.sec.framework.tags.InputFile</tag-class>
-  <body-content>JSP</body-content>                      
-  <attribute>                                           
-	   <name>label</name>
-	   <required>true</required>                            
-	   <rtexprvalue>true</rtexprvalue>                      
-	   <type>java.lang.String</type>                        
-	   <description>标签</description>            
-  </attribute>
-                      
-                      
-  <attribute>                                           
-	   <name>fieldName</name>
-	   <required>true</required>                            
-	   <rtexprvalue>true</rtexprvalue>                      
-	   <type>java.lang.String</type>                        
-	   <description>变量名称</description>            
-  </attribute>
-  
-    
-  <attribute>                                           
-	   <name>form</name>
-	   <required>false</required>                            
-	   <rtexprvalue>true</rtexprvalue>                      
-	   <type>java.lang.Object</type>                        
-	   <description>form对象</description>            
-  </attribute>
-  
- </tag>
  
  
 </taglib>
