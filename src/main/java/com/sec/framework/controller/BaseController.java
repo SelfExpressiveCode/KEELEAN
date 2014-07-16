@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.sec.framework.component.combo.Combo;
+import com.sec.framework.component.combo.ComboItem;
 import com.sec.framework.entity.BaseEntity;
 import com.sec.framework.entity.Finder;
 import com.sec.framework.form.BaseForm;
@@ -43,6 +44,21 @@ public abstract class BaseController<T extends BaseEntity, P extends BaseForm> {
 			Class<M> entityClass, Long selected) {
 		Combo<M> combo = new Combo<M>(entityClass);
 		combo.load();
+		if (selected != null) {
+			combo.selectedData(selected);
+		}
+		request.setAttribute(entityClass.getSimpleName().toLowerCase()
+				+ "Combo", combo);
+	}
+
+	public <M extends BaseEntity> void loadComboWithEmpty(
+			HttpServletRequest request, Class<M> entityClass, Long selected) {
+		Combo<M> combo = new Combo<M>(entityClass);
+		combo.load();
+		ComboItem item = new ComboItem();
+		item.key = -1;
+		item.value = "--------";
+		combo.getItems().add(0, item);
 		if (selected != null) {
 			combo.selectedData(selected);
 		}
