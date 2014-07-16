@@ -19,15 +19,27 @@ import com.sec.framework.util.StringUtil;
 public abstract class BaseEntity implements Logical {
 
 	public void save() {
-		Ebean.beginTransaction();
-		Ebean.save(this);
-		Ebean.commitTransaction();
+		Transaction tx = null;
+		try {
+			tx = Ebean.beginTransaction();
+			Ebean.save(this);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		}
 	}
 
 	public void update() {
-		Ebean.beginTransaction();
-		Ebean.update(this);
-		Ebean.commitTransaction();
+		Transaction tx = null;
+		try {
+			tx = Ebean.beginTransaction();
+			Ebean.update(this);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		}
 	}
 
 	public void fakeSave() {
@@ -52,6 +64,20 @@ public abstract class BaseEntity implements Logical {
 	}
 
 	public void updateViaSql(BaseEntity object,
+			Class<? extends BaseEntity> clazz) {
+
+		Transaction tx = Ebean.beginTransaction();
+		try {
+
+			fakeUpdateViaSql(object, clazz);
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
+	}
+
+	public void fakeUpdateViaSql(BaseEntity object,
 			Class<? extends BaseEntity> clazz) {
 		StringBuilder sql = new StringBuilder();
 		Annotation anno = clazz.getAnnotation(Table.class);
@@ -92,16 +118,8 @@ public abstract class BaseEntity implements Logical {
 		String executable = sql.toString().replace(", where", " where");
 
 		System.out.println(executable);
-
-		Transaction tx = Ebean.beginTransaction();
-		try {
-			SqlUpdate update = Ebean.createSqlUpdate(executable);
-			update.execute();
-			tx.commit();
-		} catch (Exception e) {
-			tx.rollback();
-			e.printStackTrace();
-		}
+		SqlUpdate update = Ebean.createSqlUpdate(executable);
+		update.execute();
 	}
 
 	private String formatName(Field field) {
