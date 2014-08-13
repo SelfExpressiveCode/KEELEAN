@@ -3,7 +3,8 @@ package com.sec.framework.tags;
 @SuppressWarnings("serial")
 public class InputTextArea extends InputText {
 
-	protected String rows = "3";
+	protected int rows = 3;
+	protected int cols = 10;
 
 	@Override
 	protected String getPlaceHolderText() {
@@ -13,15 +14,24 @@ public class InputTextArea extends InputText {
 		;
 		return "<textarea id=" + id + " name=" + name
 				+ " class=\"form-control\" placeholder=\"请输入" + label
-				+ "\" rows=\"" + rows + "\">" + valueStr + "</textarea>";
+				+ "\" rows=\"" + rows + "\" cols=\"" + cols + "\">" + valueStr
+				+ "</textarea>";
 	}
 
-	public String getRows() {
+	public int getRows() {
 		return rows;
 	}
 
-	public void setRows(String rows) {
+	public void setRows(int rows) {
 		this.rows = rows;
+	}
+
+	public int getCols() {
+		return cols;
+	}
+
+	public void setCols(int cols) {
+		this.cols = cols;
 	}
 
 }
