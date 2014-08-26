@@ -95,7 +95,7 @@ public abstract class BaseController<T extends BaseEntity, P extends BaseForm> {
 		}
 		T entity = (T) form.toEntity(form, entityClass);
 
-		BaseEntity user = (BaseEntity) session.getAttribute("session_user");
+		BaseEntity user = (BaseEntity) session.getAttribute("user");
 		entity.setDefaultFields(user, false);
 		setDataFromSession(entity);
 		entity.save();
@@ -143,7 +143,7 @@ public abstract class BaseController<T extends BaseEntity, P extends BaseForm> {
 		}
 		T entity = (T) form.toEntity(form, entityClass);
 
-		BaseEntity user = (BaseEntity) session.getAttribute("session_user");
+		BaseEntity user = (BaseEntity) session.getAttribute("user");
 		entity.setDefaultFields(user, true);
 		setDataFromSession(entity);
 		entity.updateViaSql(entity, entityClass);

@@ -275,7 +275,15 @@
 	   <type>java.lang.String</type>                        
 	   <description>特性，来自于/WEB-INF/config/feature-toggle.properties</description>            
   </attribute>
-                      
+                     
+  <attribute>                                           
+	   <name>source</name>
+	   <required>false</required>                            
+	   <rtexprvalue>true</rtexprvalue>                      
+	   <type>java.lang.String</type>                        
+	   <description>类名</description>            
+  </attribute>
+                        
  </tag>
  
 </taglib>

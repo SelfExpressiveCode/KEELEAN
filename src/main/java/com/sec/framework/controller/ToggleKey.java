@@ -5,11 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(value = { ElementType.TYPE, ElementType.METHOD })
+@Target(value = { ElementType.FIELD })
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface FeatureToggle {
+public @interface ToggleKey {
 
-	public String value();
-
-	public Class source() default Object.class;
 }

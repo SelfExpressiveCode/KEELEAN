@@ -13,7 +13,7 @@ import com.sec.framework.entity.BaseEntity;
 import com.sec.framework.entity.Finder;
 
 public class Combo<T extends BaseEntity> {
-	private List<ComboItem> items;
+	private List<ComboItem> items = new ArrayList<ComboItem>();
 	Class<T> clazz;
 
 	public Combo() {

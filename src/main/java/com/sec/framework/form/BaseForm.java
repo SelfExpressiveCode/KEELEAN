@@ -89,8 +89,13 @@ public class BaseForm implements Validatee {
 																.get(form)))));
 							}
 						} else {
-							field.setAccessible(true);
-							entityField.set(entity, field.get(form));
+							if (field.getType().equals("java.lang.Boolean")) {
+								field.setAccessible(true);
+								entityField.set(entity, field.get(form));
+							} else {
+								field.setAccessible(true);
+								entityField.set(entity, field.get(form));
+							}
 						}
 					}
 				}

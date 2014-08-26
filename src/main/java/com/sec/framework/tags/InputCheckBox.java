@@ -70,9 +70,10 @@ public class InputCheckBox extends BaseInput {
 	protected String getPlaceHolderText() {
 		String name = formClass.getSimpleName().toLowerCase() + "."
 				+ field.getName();
-		String valueStr = valueToString(value, field.getType());
-		return "<input type='checkbox' " + "value='" + valueStr + "' name='"
-				+ name + "'  id='" + id + "'>";
+
+		String checked = value == null ? "" : (Boolean) value ? "checked" : "";
+		return "<input type='checkbox' " + checked + " name='" + name
+				+ "'  id='" + id + "'>";
 	}
 
 	@Override

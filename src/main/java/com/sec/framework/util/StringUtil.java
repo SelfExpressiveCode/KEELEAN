@@ -35,6 +35,12 @@ public class StringUtil {
 		if (date == null) {
 			date = parseDate(value, "MM/dd/yyyy");
 		}
+		if (date == null) {
+			date = parseDate(value, "M/d/yyyy");
+		}
+		if (date == null) {
+			date = parseDate(value, "yyyy-M-d");
+		}
 		return date;
 	}
 
@@ -69,7 +75,7 @@ public class StringUtil {
 		return sdf.format(value);
 	}
 
-	public static String formatShrnikedTimestamp(Date value) {
+	public static String formatShrinkedTimestamp(Date value) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return sdf.format(value);
 	}
@@ -95,6 +101,10 @@ public class StringUtil {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static boolean isNullOrEmpty(String text) {
+		return text == null || text.equals("");
 	}
 
 }

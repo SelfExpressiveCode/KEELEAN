@@ -60,6 +60,8 @@ public class FormFactory {
 		try {
 			Class clazzType = formField.getType();
 
+			System.out.println("clazzType =  " + formField.getName() + "~~"
+					+ clazzType);
 			if (clazzType.getName().equals("java.lang.String")) {
 				formField.set(form, value);
 			} else if (clazzType.getName().equals(
@@ -80,6 +82,8 @@ public class FormFactory {
 				formField.set(form, Long.parseLong((String) value));
 			} else if (clazzType.getName().equals("java.lang.Float")) {
 				formField.set(form, Float.parseFloat((String) value));
+			} else if (clazzType.getName().equals("java.lang.Boolean")) {
+				formField.set(form, "on".equals((String) value));
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

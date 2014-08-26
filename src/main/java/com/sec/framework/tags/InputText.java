@@ -14,6 +14,8 @@ public class InputText extends BaseInput {
 
 	protected String readonly;
 
+	protected Integer height;
+
 	// TODO regular expression format to restrict
 	protected String format;
 
@@ -47,7 +49,9 @@ public class InputText extends BaseInput {
 				}
 			}
 
-			model.append("<div style='width:100%;height:35px;'>");
+			int h = height == null ? 35 : height;
+
+			model.append("<div style='width:100%;height:" + h + "px;'>");
 			model.append("<div style='float:left;width:120px;'>");
 			model.append("<label for='" + id + "'>" + label + requiredMark
 					+ "</label>");
@@ -110,6 +114,14 @@ public class InputText extends BaseInput {
 
 	public void setReadonly(String readonly) {
 		this.readonly = readonly;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
 	}
 
 }

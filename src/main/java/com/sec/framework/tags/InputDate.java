@@ -14,7 +14,7 @@ public class InputDate extends InputText {
 				+ "\"" + " value=\"" + valueStr + "\"  name=\"" + name
 				+ "\" class=\"form-control Wdate\" id=\"" + id
 				+ "\" placeholder='请输入" + label + "'>";
-		System.out.println("text= " + text);
+
 		return text;
 	}
 }

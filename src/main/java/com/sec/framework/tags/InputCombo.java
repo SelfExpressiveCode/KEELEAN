@@ -27,7 +27,7 @@ public class InputCombo extends InputText {
 				+ field.getName();
 
 		StringBuilder result = new StringBuilder();
-		result.append("<select name='" + name + "' style='width:120px;' id='"
+		result.append("<select name='" + name + "' style='width:160px;' id='"
 				+ id + "'>");
 		if (null != combo && CollectionUtils.isNotEmpty(combo.getItems())) {
 			List<ComboItem> items = combo.getItems();
